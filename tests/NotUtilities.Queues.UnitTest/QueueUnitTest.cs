@@ -1,7 +1,7 @@
-using NotUtilities.Queue;
-using NotUtilities.Queue.Interface;
+using NotUtilities.Queues;
+using NotUtilities.Queues.Interface;
 
-namespace NotUtilities.Queue.UnitTest
+namespace NotUtilities.Queues.UnitTest
 {
     [TestFixture]
     public class QueueUnitTest
@@ -92,35 +92,5 @@ namespace NotUtilities.Queue.UnitTest
             Assert.ThrowsAsync<ObjectDisposedException>(async () => await queue.QueueMessageAsync(topic, expectedMessage));
             Assert.ThrowsAsync<ObjectDisposedException>(async () => await queue.DequeueMessageAsync<string>(topic));
         }
-
-        //[Test]
-        //public async Task ConcurrentQueueAndDequeueOperations_ShouldMaintainIntegrity()
-        //{
-        //    var queue = new Queue(50); // Increased capacity for concurrency test
-        //    string topic = "concurrentTopic";
-        //    int messageCount = 100;
-
-        //    var enqueueTasks = new Task[messageCount];
-        //    for (int i = 0; i < messageCount; i++)
-        //    {
-        //        string message = $"Message {i}";
-        //        enqueueTasks[i] = queue.QueueMessageAsync(topic, message);
-        //    }
-
-        //    await Task.WhenAll(enqueueTasks);
-
-        //    var dequeueTasks = new Task<(string, IMessageContext)>[messageCount];
-        //    for (int i = 0; i < messageCount; i++)
-        //    {
-        //        dequeueTasks[i] = queue.DequeueMessageAsync<string>(topic);
-        //    }
-
-        //    await Task.WhenAll(dequeueTasks);
-
-        //    // Validate all messages were dequeued correctly. This is a basic integrity check.
-        //    // A more sophisticated approach may be needed to ensure the integrity of message order or content.
-        //    Assert.That(dequeueTasks.All(t => t.Result.Item1.StartsWith("Message")), "All messages should be dequeued successfully.");
-        //}
     }
-
 }

@@ -19,7 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\NotUtilities.Core\NotUtilities.Core.csproj" />
-    <ProjectReference Include="..\..\src\NotUtilities.Queue\NotUtilities.Queue.csproj" />
+    <ProjectReference Include="..\..\src\NotUtilities.Queues\NotUtilities.Queues.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,17 +1,17 @@
 ﻿using NotUtilities.Core.Abstraction;
-using NotUtilities.Queue.Interface;
+using NotUtilities.Queues.Interface;
 using System.Collections.Concurrent;
 using System.Threading.Channels;
 
-namespace NotUtilities.Queue
+namespace NotUtilities.Queues
 {
     /// <summary>
     /// Represents an object queued for processing, including its message and associated context.
     /// </summary>
     internal record QueuedObject
     {
-        public required object Message { get; init; }
-        public required MessageContext Context { get; init; }
+        public object Message { get; init; }
+        public MessageContext Context { get; init; }
     }
 
     /// <summary>
