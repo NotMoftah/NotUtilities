@@ -1,7 +1,7 @@
-using NotUtilities.Queue;
-using NotUtilities.Queue.Interface;
+using NotUtilities.Queues;
+using NotUtilities.Queues.Interface;
 
-namespace NotUtilities.Queue.UnitTest
+namespace NotUtilities.Queues.UnitTest
 {
     [TestFixture]
     public class QueueUnitTest

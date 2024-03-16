@@ -1,9 +1,9 @@
 ﻿using NotUtilities.Core.Abstraction;
-using NotUtilities.Queue.Interface;
+using NotUtilities.Queues.Interface;
 using System.Collections.Concurrent;
 using System.Threading.Channels;
 
-namespace NotUtilities.Queue
+namespace NotUtilities.Queues
 {
     /// <summary>
     /// Represents an object queued for processing, including its message and associated context.

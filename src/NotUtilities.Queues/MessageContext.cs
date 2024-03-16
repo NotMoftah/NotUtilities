@@ -1,6 +1,6 @@
-﻿using NotUtilities.Queue.Interface;
+﻿using NotUtilities.Queues.Interface;
 
-namespace NotUtilities.Queue
+namespace NotUtilities.Queues
 {
     /// <summary>
     /// Provides context for a queued message, including a unique identifier, topic, and the time it was queued.
