@@ -4,13 +4,15 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-	<PackageId>NotUtilities.Queue</PackageId>
+	<PackageId>NotUtilities</PackageId>
 	<Version>1.0.0</Version>
 	<Authors>AbdElAziz Moftah</Authors>
+	<Description>A Collection of Utilities and Tools</Description>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\NotUtilities.Core\NotUtilities.Core.csproj" />
+    <ProjectReference Include="..\NotUtilities.Queue\NotUtilities.Queue.csproj" />
   </ItemGroup>
 
 </Project>
