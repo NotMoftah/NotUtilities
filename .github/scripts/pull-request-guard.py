@@ -38,9 +38,15 @@ def post_github_comment(repo_name: str, pr_number: int, token: str, comment_body
 
     Returns: None
     """
+    print(repo_name, pr_number, comment_body)
     url = f"https://api.github.com/repos/{repo_name}/issues/{pr_number}/comments"
-    headers = {"Authorization": f"token {token}"}
-    data = {"body": comment_body}
+    headers = {
+        "Authorization": f"token {token}",
+        "Content-Type": "application/json"
+        }
+    data = {
+        "body": comment_body
+        }
     response = requests.post(url, 
                              headers=headers, 
                              data=json.dumps(data))
