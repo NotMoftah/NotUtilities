@@ -23,7 +23,7 @@ def exit_based_on_state(is_success_state: bool) -> None:
 
     Returns: None
     """
-    exit_code = 0 if state else 1
+    exit_code = 0 if is_success_state else 1
     sys.exit(exit_code)
 
 def post_github_comment(repo_name: str, pr_number: int, token: str, comment_body: str) -> None:
@@ -46,6 +46,9 @@ def post_github_comment(repo_name: str, pr_number: int, token: str, comment_body
                              data=json.dumps(data))
     if response.status_code == 201:
         print("Comment posted successfully.")
+    else:
+        print(response.status_code)
+        print(response.text)
 
 
 # region: entry point
