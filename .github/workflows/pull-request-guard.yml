@@ -32,5 +32,5 @@ jobs:
         PR_NUMBER: ${{ github.event.pull_request.number }}
         REPO_NAME: ${{ github.repository }}
         PR_DESCRIPTION: ${{ env.PR_DESCRIPTION }}
-      run: python .github/scripts/pr-guard.py
+      run: python .github/scripts/pull-request-guard.py
     
