@@ -12,7 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\NotUtilities.Core\NotUtilities.Core.csproj" />
-    <ProjectReference Include="..\NotUtilities.Queue\NotUtilities.Queue.csproj" />
+    <ProjectReference Include="..\NotUtilities.Queues\NotUtilities.Queues.csproj" />
   </ItemGroup>
 
 </Project>

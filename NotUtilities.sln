@@ -9,9 +9,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{140E843E-5EB
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{2C75D2E0-CBED-4877-870F-FB4EF49FCF87}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NotUtilities.Queue", "src\NotUtilities.Queue\NotUtilities.Queue.csproj", "{E1B26A07-3DCD-4E4C-8D5E-7802BF68926F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NotUtilities.Queues", "src\NotUtilities.Queues\NotUtilities.Queues.csproj", "{E1B26A07-3DCD-4E4C-8D5E-7802BF68926F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NotUtilities.Queue.UnitTest", "tests\NotUtilities.Queue.UnitTest\NotUtilities.Queue.UnitTest.csproj", "{FE6E74F5-589B-450C-AE84-644F2F2588B9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NotUtilities.Queues.UnitTest", "tests\NotUtilities.Queues.UnitTest\NotUtilities.Queues.UnitTest.csproj", "{FE6E74F5-589B-450C-AE84-644F2F2588B9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotUtilities", "src\NotUtilities\NotUtilities.csproj", "{E7962AB4-AE11-4439-AB75-89E8D3C7CF42}"
 EndProject
