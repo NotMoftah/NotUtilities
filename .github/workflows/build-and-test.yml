@@ -1,18 +1,15 @@
 name: build and test
 
 on:
-  push:
-    branches: 
-      - 'main'
-      - 'rel/*'
+  workflow_dispatch:
   pull_request:
     branches: 
       - 'main'
       - 'rel/*'
-    paths:
-    - '**.cs'
-    - '**.csproj'
-  workflow_dispatch:
+  push:
+    branches: 
+      - 'main'
+      - 'rel/*'
 
 permissions:
   contents: read
