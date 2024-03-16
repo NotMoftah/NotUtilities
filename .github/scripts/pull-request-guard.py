@@ -40,7 +40,7 @@ def post_github_comment(repo_name: str, pr_number: int, token: str, comment_body
     """
     url = f"https://api.github.com/repos/{repo_name}/issues/{pr_number}/comments"
     headers = {"Authorization": f"token {token}"}
-    data = {"body": COMMENT_THANK_YOU}
+    data = {"body": comment_body}
     response = requests.post(url, 
                              headers=headers, 
                              data=json.dumps(data))
@@ -50,5 +50,5 @@ def post_github_comment(repo_name: str, pr_number: int, token: str, comment_body
 
 # region: entry point
 if __name__ == "__main__":
-    post_github_comment(ENV_REPO_NAME, ENV_PR_NUMBER, ENV_GITHUB_TOKEN)
+    post_github_comment(ENV_REPO_NAME, ENV_PR_NUMBER, ENV_GITHUB_TOKEN, COMMENT_THANK_YOU)
     exit_based_on_state(True)
