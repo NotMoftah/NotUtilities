@@ -10,8 +10,8 @@ namespace NotUtilities.Queues
     /// </summary>
     internal record QueuedObject
     {
-        public required object Message { get; init; }
-        public required MessageContext Context { get; init; }
+        public object Message { get; init; }
+        public MessageContext Context { get; init; }
     }
 
     /// <summary>
