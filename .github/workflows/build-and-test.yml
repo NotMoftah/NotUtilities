@@ -14,6 +14,9 @@ on:
     - '**.csproj'
   workflow_dispatch:
 
+permissions:
+  contents: read
+    
 env:
   DOTNET_VERSION: '8.0.x'
 
