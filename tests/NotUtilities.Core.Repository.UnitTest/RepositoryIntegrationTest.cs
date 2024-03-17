@@ -10,14 +10,14 @@ using System.Threading.Tasks;
 
 namespace NotUtilities.Core.Repository.UnitTest
 {
-    public class TransactionalRepositoryIntegrationTest : TestFixtureBase
+    public class RepositoryIntegrationTest : TestFixtureBase
     {
         [Test]
         public async Task Entities_WhenAccessed_ReturnsQueryableCollection()
         {
             // Arrange
             await using var scope = ServiceProvider.CreateAsyncScope();
-            var repository = scope.ServiceProvider.GetRequiredService<ITransactionalRepository<TestEntity, int>>();
+            var repository = scope.ServiceProvider.GetRequiredService<IRepository<TestEntity, int>>();
 
             // Act
             var queryable = repository.Entities;
@@ -43,7 +43,7 @@ namespace NotUtilities.Core.Repository.UnitTest
         {
             // Arrange
             await using var scope = ServiceProvider.CreateAsyncScope();
-            var repository = scope.ServiceProvider.GetRequiredService<ITransactionalRepository<TestEntity, int>>();
+            var repository = scope.ServiceProvider.GetRequiredService<IRepository<TestEntity, int>>();
 
             // Act
             var entity = await repository.FindByIdAsync(1);
@@ -59,7 +59,7 @@ namespace NotUtilities.Core.Repository.UnitTest
         {
             // Arrange
             await using var scope = ServiceProvider.CreateAsyncScope();
-            var repository = scope.ServiceProvider.GetRequiredService<ITransactionalRepository<TestEntity, int>>();
+            var repository = scope.ServiceProvider.GetRequiredService<IRepository<TestEntity, int>>();
 
             // Act
             var entity = await repository.FindByIdAsync(-1);
@@ -73,7 +73,7 @@ namespace NotUtilities.Core.Repository.UnitTest
         {
             // Arrange
             await using var scope = ServiceProvider.CreateAsyncScope();
-            var repository = scope.ServiceProvider.GetRequiredService<ITransactionalRepository<TestEntity, int>>();
+            var repository = scope.ServiceProvider.GetRequiredService<IRepository<TestEntity, int>>();
 
             var expectedName = "name-";
 
@@ -89,7 +89,7 @@ namespace NotUtilities.Core.Repository.UnitTest
         {
             // Arrange
             await using var scope = ServiceProvider.CreateAsyncScope();
-            var repository = scope.ServiceProvider.GetRequiredService<ITransactionalRepository<TestEntity, int>>();
+            var repository = scope.ServiceProvider.GetRequiredService<IRepository<TestEntity, int>>();
 
             // Act
             var entity = await repository.FindAsync(x => x.Name == "NonExistentName");
@@ -103,7 +103,7 @@ namespace NotUtilities.Core.Repository.UnitTest
         {
             // Arrange
             await using var scope = ServiceProvider.CreateAsyncScope();
-            var repository = scope.ServiceProvider.GetRequiredService<ITransactionalRepository<TestEntity, int>>();
+            var repository = scope.ServiceProvider.GetRequiredService<IRepository<TestEntity, int>>();
             var expectedIds = new List<int> { 1, 2, 3, 4, 5, 6, 7 };
 
             // Act
@@ -121,7 +121,7 @@ namespace NotUtilities.Core.Repository.UnitTest
         {
             // Arrange
             await using var scope = ServiceProvider.CreateAsyncScope();
-            var repository = scope.ServiceProvider.GetRequiredService<ITransactionalRepository<TestEntity, int>>();
+            var repository = scope.ServiceProvider.GetRequiredService<IRepository<TestEntity, int>>();
             var queryIds = new List<int> { 1, -2, 3, -4, 234535, 6, -73245345 };
             var expectedIds = new List<int> { 1, 3, 6 };
 
@@ -140,7 +140,7 @@ namespace NotUtilities.Core.Repository.UnitTest
         {
             // Arrange
             await using var scope = ServiceProvider.CreateAsyncScope();
-            var repository = scope.ServiceProvider.GetRequiredService<ITransactionalRepository<TestEntity, int>>();
+            var repository = scope.ServiceProvider.GetRequiredService<IRepository<TestEntity, int>>();
             var queryIds = new List<int> { -1, 32423425, -45645645 };
 
             // Act
@@ -156,7 +156,7 @@ namespace NotUtilities.Core.Repository.UnitTest
         {
             // Arrange
             await using var scope = ServiceProvider.CreateAsyncScope();
-            var repository = scope.ServiceProvider.GetRequiredService<ITransactionalRepository<TestEntity, int>>();
+            var repository = scope.ServiceProvider.GetRequiredService<IRepository<TestEntity, int>>();
 
             var expectedName = "name-";
 
@@ -173,7 +173,7 @@ namespace NotUtilities.Core.Repository.UnitTest
         {
             // Arrange
             await using var scope = ServiceProvider.CreateAsyncScope();
-            var repository = scope.ServiceProvider.GetRequiredService<ITransactionalRepository<TestEntity, int>>();
+            var repository = scope.ServiceProvider.GetRequiredService<IRepository<TestEntity, int>>();
 
             // Act
             var entities = await repository.FindAllAsync(x => x.Name == "NonExistentName");
@@ -187,7 +187,7 @@ namespace NotUtilities.Core.Repository.UnitTest
         {
             // Arrange
             await using var scope = ServiceProvider.CreateAsyncScope();
-            var repository = scope.ServiceProvider.GetRequiredService<ITransactionalRepository<TestEntity, int>>();
+            var repository = scope.ServiceProvider.GetRequiredService<IRepository<TestEntity, int>>();
 
             // Act
             var projections = await repository.SelectAsync(entities => entities.Select(e => new { e.Id, e.Name }));
@@ -203,7 +203,7 @@ namespace NotUtilities.Core.Repository.UnitTest
         {
             // Arrange
             await using var scope = ServiceProvider.CreateAsyncScope();
-            var repository = scope.ServiceProvider.GetRequiredService<ITransactionalRepository<TestEntity, int>>();
+            var repository = scope.ServiceProvider.GetRequiredService<IRepository<TestEntity, int>>();
 
             var newEntity = new TestEntity { Name = "TestEntity" };
 
@@ -220,7 +220,7 @@ namespace NotUtilities.Core.Repository.UnitTest
         {
             // Arrange
             await using var scope = ServiceProvider.CreateAsyncScope();
-            var repository = scope.ServiceProvider.GetRequiredService<ITransactionalRepository<TestEntity, int>>();
+            var repository = scope.ServiceProvider.GetRequiredService<IRepository<TestEntity, int>>();
 
             var newEntity = new TestEntity {Id = 5, Name = "TestEntity" };
 
@@ -236,7 +236,7 @@ namespace NotUtilities.Core.Repository.UnitTest
         {
             // Arrange
             await using var scope = ServiceProvider.CreateAsyncScope();
-            var repository = scope.ServiceProvider.GetRequiredService<ITransactionalRepository<TestEntity, int>>();
+            var repository = scope.ServiceProvider.GetRequiredService<IRepository<TestEntity, int>>();
 
             TestEntity? nullEntity = null;
 
@@ -249,7 +249,7 @@ namespace NotUtilities.Core.Repository.UnitTest
         {
             // Arrange
             await using var scope = ServiceProvider.CreateAsyncScope();
-            var repository = scope.ServiceProvider.GetRequiredService<ITransactionalRepository<TestEntity, int>>();
+            var repository = scope.ServiceProvider.GetRequiredService<IRepository<TestEntity, int>>();
 
             var newEntities = new List<TestEntity>
             {
@@ -270,7 +270,7 @@ namespace NotUtilities.Core.Repository.UnitTest
         {
             // Arrange
             await using var scope = ServiceProvider.CreateAsyncScope();
-            var repository = scope.ServiceProvider.GetRequiredService<ITransactionalRepository<TestEntity, int>>();
+            var repository = scope.ServiceProvider.GetRequiredService<IRepository<TestEntity, int>>();
 
             var newEntities = new List<TestEntity>
             {
@@ -292,7 +292,7 @@ namespace NotUtilities.Core.Repository.UnitTest
         {
             // Arrange
             await using var scope = ServiceProvider.CreateAsyncScope();
-            var repository = scope.ServiceProvider.GetRequiredService<ITransactionalRepository<TestEntity, int>>();
+            var repository = scope.ServiceProvider.GetRequiredService<IRepository<TestEntity, int>>();
 
             var newEntities = new List<TestEntity?>
             {
@@ -309,7 +309,7 @@ namespace NotUtilities.Core.Repository.UnitTest
         {
             // Arrange
             await using var scope = ServiceProvider.CreateAsyncScope();
-            var repository = scope.ServiceProvider.GetRequiredService<ITransactionalRepository<TestEntity, int>>();
+            var repository = scope.ServiceProvider.GetRequiredService<IRepository<TestEntity, int>>();
 
             var entityToUpdate = new TestEntity { Id = 1, Name = "UpdatedName" };
 
@@ -326,7 +326,7 @@ namespace NotUtilities.Core.Repository.UnitTest
         {
             // Arrange
             await using var scope = ServiceProvider.CreateAsyncScope();
-            var repository = scope.ServiceProvider.GetRequiredService<ITransactionalRepository<TestEntity, int>>();
+            var repository = scope.ServiceProvider.GetRequiredService<IRepository<TestEntity, int>>();
 
             var nonExistingEntity = new TestEntity { Id = 349999, Name = "NonExisting" };
 
@@ -342,7 +342,7 @@ namespace NotUtilities.Core.Repository.UnitTest
         {
             // Arrange
             await using var scope = ServiceProvider.CreateAsyncScope();
-            var repository = scope.ServiceProvider.GetRequiredService<ITransactionalRepository<TestEntity, int>>();
+            var repository = scope.ServiceProvider.GetRequiredService<IRepository<TestEntity, int>>();
 
             TestEntity? nullEntity = null;
 
@@ -355,7 +355,7 @@ namespace NotUtilities.Core.Repository.UnitTest
         {
             // Arrange
             await using var scope = ServiceProvider.CreateAsyncScope();
-            var repository = scope.ServiceProvider.GetRequiredService<ITransactionalRepository<TestEntity, int>>();
+            var repository = scope.ServiceProvider.GetRequiredService<IRepository<TestEntity, int>>();
 
             var existingEntities = new List<TestEntity>
             {
@@ -376,7 +376,7 @@ namespace NotUtilities.Core.Repository.UnitTest
         {
             // Arrange
             await using var scope = ServiceProvider.CreateAsyncScope();
-            var repository = scope.ServiceProvider.GetRequiredService<ITransactionalRepository<TestEntity, int>>();
+            var repository = scope.ServiceProvider.GetRequiredService<IRepository<TestEntity, int>>();
 
             var mixedEntities = new List<TestEntity>
             {
@@ -397,7 +397,7 @@ namespace NotUtilities.Core.Repository.UnitTest
         {
             // Arrange
             await using var scope = ServiceProvider.CreateAsyncScope();
-            var repository = scope.ServiceProvider.GetRequiredService<ITransactionalRepository<TestEntity, int>>();
+            var repository = scope.ServiceProvider.GetRequiredService<IRepository<TestEntity, int>>();
 
             TestEntity? nullEntity = null;
 
@@ -410,7 +410,7 @@ namespace NotUtilities.Core.Repository.UnitTest
         {
             // Arrange
             await using var scope = ServiceProvider.CreateAsyncScope();
-            var repository = scope.ServiceProvider.GetRequiredService<ITransactionalRepository<TestEntity, int>>();
+            var repository = scope.ServiceProvider.GetRequiredService<IRepository<TestEntity, int>>();
 
             var entitiesToDelete = new List<TestEntity>
             {
@@ -431,7 +431,7 @@ namespace NotUtilities.Core.Repository.UnitTest
         {
             // Arrange
             await using var scope = ServiceProvider.CreateAsyncScope();
-            var repository = scope.ServiceProvider.GetRequiredService<ITransactionalRepository<TestEntity, int>>();
+            var repository = scope.ServiceProvider.GetRequiredService<IRepository<TestEntity, int>>();
 
             var mixedEntities = new List<TestEntity>
             {
@@ -452,7 +452,7 @@ namespace NotUtilities.Core.Repository.UnitTest
         {
             // Arrange
             await using var scope = ServiceProvider.CreateAsyncScope();
-            var repository = scope.ServiceProvider.GetRequiredService<ITransactionalRepository<TestEntity, int>>();
+            var repository = scope.ServiceProvider.GetRequiredService<IRepository<TestEntity, int>>();
 
             var entities = new List<TestEntity?>
             {
@@ -469,13 +469,18 @@ namespace NotUtilities.Core.Repository.UnitTest
         {
             // Arrange
             await using var scope = ServiceProvider.CreateAsyncScope();
-            var repository = scope.ServiceProvider.GetRequiredService<ITransactionalRepository<TestEntity, int>>();
+            var repository = scope.ServiceProvider.GetRequiredService<IRepository<TestEntity, int>>();
 
-            var newEntity = new TestEntity { Name = "TempEntity" };
+            var newEntity = new TestEntity { Id = 23456, Name = "TempEntity" };
             await repository.InsertAsync(newEntity);
 
             // Act & Assert
             Assert.DoesNotThrowAsync(repository.SaveChangesAsync, "Saving changes should complete successfully without throwing exceptions.");
+
+            // Act & Assert
+            var checkEntity = await repository.FindByIdAsync(newEntity.Id);
+            Assert.That(checkEntity, Is.Not.Null, "Discarding changes should complete successfully without touching the resources.");
+
         }
 
         [Test]
@@ -483,10 +488,38 @@ namespace NotUtilities.Core.Repository.UnitTest
         {
             // Arrange
             await using var scope = ServiceProvider.CreateAsyncScope();
-            var repository = scope.ServiceProvider.GetRequiredService<ITransactionalRepository<TestEntity, int>>();
+            var repository = scope.ServiceProvider.GetRequiredService<IRepository<TestEntity, int>>();
 
             // Act & Assert
             Assert.DoesNotThrowAsync(async () => await repository.SaveChangesAsync(), "Saving without changes should complete successfully without throwing exceptions.");
+        }
+
+        [Test]
+        public async Task DiscardChangesAsync_WhenChangesExist_CompletesSuccessfully()
+        {
+            // Arrange
+            await using var scope = ServiceProvider.CreateAsyncScope();
+            var repository = scope.ServiceProvider.GetRequiredService<IRepository<TestEntity, int>>();
+
+            var newEntity = new TestEntity { Id = 12345, Name = "TempEntity" };
+            await repository.InsertAsync(newEntity);
+
+            // Act & Assert
+            Assert.DoesNotThrowAsync(async () => await repository.DiscardChangesAsync(), "Discarding changes should complete successfully without throwing exceptions.");
+
+            var checkEntity = await repository.FindByIdAsync(newEntity.Id);
+            Assert.That(checkEntity, Is.EqualTo(default(TestEntity)), "Discarding changes should complete successfully without touching the resources.");
+        }
+
+        [Test]
+        public async Task DiscardChangesAsync_WhenNoChangesExist_CompletesSuccessfully()
+        {
+            // Arrange
+            await using var scope = ServiceProvider.CreateAsyncScope();
+            var repository = scope.ServiceProvider.GetRequiredService<IRepository<TestEntity, int>>();
+
+            // Act & Assert
+            Assert.DoesNotThrowAsync(async () => await repository.DiscardChangesAsync(), "Discarding without changes should complete successfully without throwing exceptions.");
         }
 
         [Test]
@@ -494,7 +527,7 @@ namespace NotUtilities.Core.Repository.UnitTest
         {
             // Arrange
             var scope = ServiceProvider.CreateAsyncScope();
-            var repository = scope.ServiceProvider.GetRequiredService<ITransactionalRepository<TestEntity, int>>();
+            var repository = scope.ServiceProvider.GetRequiredService<IRepository<TestEntity, int>>();
 
             // Act
             await repository.DisposeAsync();
@@ -503,7 +536,5 @@ namespace NotUtilities.Core.Repository.UnitTest
             // but specifics depend on the implementation details of ITransactionalRepository and might not be directly testable.
             Assert.Pass("Resource release upon AsyncDispose call should be verified according to the specific logic and resource management strategy of ITransactionalRepository.");
         }
-
-
     }
 }

@@ -9,13 +9,13 @@ using System.Text;
 
 namespace NotUtilities.Core.Repository
 {
-    public class TransactionalRepository<TEntity, TKey> : AsyncDisposableResource, ITransactionalRepository<TEntity, TKey>
+    public class Repository<TEntity, TKey> : AsyncDisposableResource, IRepository<TEntity, TKey>
         where TEntity : class, IEntity<TKey>
         where TKey : IComparable<TKey>, IEquatable<TKey>
     {
         private readonly DbContext _dbContext;
 
-        public TransactionalRepository(DbContext context)
+        public Repository(DbContext context)
         {
             _dbContext = context;
         }
@@ -25,33 +25,38 @@ namespace NotUtilities.Core.Repository
         #region Read Operations
         public async Task<TEntity?> FindByIdAsync(TKey id)
         {
-            var query = from row in _dbContext.Set<TEntity>().Where(e => e.Id.Equals(id))
-                        select row;
-
-            return await query.FirstOrDefaultAsync();
+            return await _dbContext.Set<TEntity>()
+                                   .AsNoTracking()
+                                   .Where(e => e.Id.Equals(id))
+                                   .FirstOrDefaultAsync();
         }
         public async Task<TEntity?> FindAsync(Expression<Func<TEntity, bool>> predicate)
         {
             return await _dbContext.Set<TEntity>()
-                                 .Where(predicate)
-                                 .FirstOrDefaultAsync();
+                                   .AsNoTracking()
+                                   .Where(predicate)
+                                   .FirstOrDefaultAsync();
         }
         public async Task<IEnumerable<TEntity>> FindByIdsAsync(IEnumerable<TKey> ids)
         {
             if (ids == null || !ids.Any()) 
                 return Enumerable.Empty<TEntity>();
 
-            return await _dbContext.Set<TEntity>().Where(e => ids.Contains(e.Id)).ToListAsync();
+            return await _dbContext.Set<TEntity>()
+                                   .AsNoTracking()
+                                   .Where(e => ids.Contains(e.Id))
+                                   .ToListAsync();
         }
         public async Task<IEnumerable<TEntity>> FindAllAsync(Expression<Func<TEntity, bool>> predicate)
         {
             return await _dbContext.Set<TEntity>()
-                                 .Where(predicate)
-                                 .ToListAsync();
+                                   .AsNoTracking()
+                                   .Where(predicate)
+                                   .ToListAsync();
         }
         public async Task<IEnumerable<TResult>> SelectAsync<TResult>(Func<IQueryable<TEntity>, IQueryable<TResult>> selector)
         {
-            return await selector(_dbContext.Set<TEntity>()).ToListAsync();
+            return await selector(_dbContext.Set<TEntity>().AsNoTracking()).ToListAsync();
         }
         #endregion
 
@@ -108,8 +113,39 @@ namespace NotUtilities.Core.Repository
 
         public async Task SaveChangesAsync()
         {
+            if (_dbContext is null)
+                throw new InvalidOperationException("DbContext is not initialized.");
+
             await _dbContext.SaveChangesAsync();
         }
+
+        public ValueTask DiscardChangesAsync()
+        {
+            if (_dbContext is null)
+                throw new InvalidOperationException("DbContext is not initialized.");
+
+            foreach (var entry in _dbContext.ChangeTracker.Entries())
+            {
+                switch (entry.State)
+                {
+                    case EntityState.Modified:
+                        entry.CurrentValues.SetValues(entry.OriginalValues);
+                        entry.State = EntityState.Unchanged;
+                        break;
+
+                    case EntityState.Added:
+                        entry.State = EntityState.Detached;
+                        break;
+
+                    case EntityState.Deleted:
+                        entry.State = EntityState.Unchanged;
+                        break;
+                }
+            }
+
+            return ValueTask.CompletedTask;
+        }
+
         public override async ValueTask DisposeAsync()
         {
             await base.DisposeAsync();

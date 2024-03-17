@@ -14,7 +14,7 @@ namespace NotUtilities.Core.Repository.Interface
         /// <typeparam name="TEntity">The entity type.</typeparam>
         /// <typeparam name="TKey">The type of the entity's primary key.</typeparam>
         /// <returns>A repository for the specified entity type.</returns>
-        ITransactionalRepository<TEntity, TKey> Repository<TEntity, TKey>()
+        IRepository<TEntity, TKey> Repository<TEntity, TKey>()
             where TEntity : class, IEntity<TKey>
             where TKey : IComparable<TKey>, IEquatable<TKey>;
 
@@ -23,6 +23,12 @@ namespace NotUtilities.Core.Repository.Interface
         /// </summary>
         /// <returns>A task representing the asynchronous operation.</returns>
         Task SaveChangesAsync();
+
+        /// <summary>
+        /// Discard all pending changes asynchronously.
+        /// </summary>
+        /// <returns>A task representing the asynchronous operation.</returns>
+        ValueTask DiscardChangesAsync();
 
         /// <summary>
         /// Starts a new transaction asynchronously with the specified isolation level.

@@ -20,7 +20,7 @@ namespace NotUtilities.Core.Repository.UnitTest.TestFixture
 
             // Register other services
             serviceCollection.AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork));
-            serviceCollection.AddScoped(typeof(ITransactionalRepository<,>), typeof(TransactionalRepository<,>));
+            serviceCollection.AddScoped(typeof(IRepository<,>), typeof(Repository<,>));
 
             // Configure TestFixture
             ServiceProvider = serviceCollection.BuildServiceProvider();

@@ -22,22 +22,60 @@ namespace NotUtilities.Core.Repository
             _dbContext = dbContext;
         }
 
-        ITransactionalRepository<TEntity, TKey> IUnitOfWork.Repository<TEntity, TKey>()
+        IRepository<TEntity, TKey> IUnitOfWork.Repository<TEntity, TKey>()
         {
-            return new TransactionalRepository<TEntity, TKey>(_dbContext);
+            if (_dbContext is null)
+                throw new InvalidOperationException("DbContext is not initialized.");
+
+            return new Repository<TEntity, TKey>(_dbContext);
         }
         public async Task SaveChangesAsync()
         {
+            if (_dbContext is null)
+                throw new InvalidOperationException("DbContext is not initialized.");
+
             await _dbContext.SaveChangesAsync();
         }
+        public ValueTask DiscardChangesAsync()
+        {
+            if (_dbContext is null)
+                throw new InvalidOperationException("DbContext is not initialized.");
 
+            foreach (var entry in _dbContext.ChangeTracker.Entries())
+            {
+                switch (entry.State)
+                {
+                    case EntityState.Modified:
+                        entry.CurrentValues.SetValues(entry.OriginalValues);
+                        entry.State = EntityState.Unchanged;
+                        break;
+
+                    case EntityState.Added:
+                        entry.State = EntityState.Detached;
+                        break;
+
+                    case EntityState.Deleted:
+                        entry.State = EntityState.Unchanged;
+                        break;
+                }
+            }
+
+            return ValueTask.CompletedTask;
+        }
+        
         public async Task BeginTransactionAsync(IsolationLevel isolationLevel = IsolationLevel.ReadCommitted)
         {
+            if (_dbContext is null)
+                throw new InvalidOperationException("DbContext is not initialized.");
+
             if (_transaction is null)
                 _transaction = await _dbContext.Database.BeginTransactionAsync();
         }
         public async Task CommitTransactionAsync()
         {
+            if (_dbContext is null)
+                throw new InvalidOperationException("DbContext is not initialized.");
+
             if (_transaction is not null)
             {
                 await SaveChangesAsync();
@@ -46,12 +84,17 @@ namespace NotUtilities.Core.Repository
         }
         public async Task RollbackTransactionAsync()
         {
+            if (_dbContext is null)
+                throw new InvalidOperationException("DbContext is not initialized.");
+
             if (_transaction is not null)
                 await _transaction.RollbackAsync();
         }
 
         public override async ValueTask DisposeAsync()
         {
+            _transaction = null;
+            await _dbContext.DisposeAsync();
             await base.DisposeAsync();
         }
     }
