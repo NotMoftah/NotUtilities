@@ -15,7 +15,7 @@ namespace NotUtilities.Core.Repository.UnitTest.TestFixture
             var serviceCollection = new ServiceCollection();
 
             // Configure your DbContext with InMemory provider
-            serviceCollection.AddDbContext<TestDbContext>(options => options.UseInMemoryDatabase("TestDatabase"));
+            serviceCollection.AddDbContext<TestDbContext>(options => options.UseSqlite("Data Source=TestDatabase.db"));
             serviceCollection.AddScoped<DbContext>(serviceCollection => serviceCollection.GetRequiredService<TestDbContext>());
 
             // Register other services
@@ -36,12 +36,13 @@ namespace NotUtilities.Core.Repository.UnitTest.TestFixture
                 var context = scope.ServiceProvider.GetRequiredService<TestDbContext>();
 
                 // Seed database or perform migrations
+                context.Database.EnsureDeleted();
                 context.Database.EnsureCreated();
                 
                 // Seed some inital random data
                 for (int i = 1; i <= 1000; i++)
                 {
-                    var entity = new TestEntity { Id = i };
+                    var entity = new TestEntity { };
                     context.TestEntities.Add(entity);
                 }
 

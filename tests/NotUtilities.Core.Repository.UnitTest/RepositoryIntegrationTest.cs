@@ -213,10 +213,11 @@ namespace NotUtilities.Core.Repository.UnitTest
             // Assert
             Assert.That(result, Is.True, "Insert should return true for a valid entity.");
             Assert.DoesNotThrowAsync(repository.SaveChangesAsync);
+            var x = 1;
         }
 
         [Test]
-        public async Task InsertAsync_WhenEntityExist_ThrowsArgumentException()
+        public async Task InsertAsync_WhenEntityExist_ThrowsDbUpdateException()
         {
             // Arrange
             await using var scope = ServiceProvider.CreateAsyncScope();
@@ -228,7 +229,7 @@ namespace NotUtilities.Core.Repository.UnitTest
             await repository.InsertAsync(newEntity);
 
             // Assert
-            Assert.ThrowsAsync<ArgumentException>(repository.SaveChangesAsync);
+            Assert.ThrowsAsync<DbUpdateException>(repository.SaveChangesAsync, "Insert should throw DbUpdateException when some entity exist.");
         }
 
         [Test]
@@ -266,7 +267,7 @@ namespace NotUtilities.Core.Repository.UnitTest
         }
 
         [Test]
-        public async Task InsertAsync_MultipleEntities_WhenSomeAreInvalid_ThrowsArgumentNullException()
+        public async Task InsertAsync_MultipleEntities_WhenSomeAreInvalid_ThrowsDbUpdateException()
         {
             // Arrange
             await using var scope = ServiceProvider.CreateAsyncScope();
@@ -284,7 +285,7 @@ namespace NotUtilities.Core.Repository.UnitTest
 
             // Assert
             Assert.That(result, Is.True, "Insert should return true when some entities are invalid.");
-            Assert.ThrowsAsync<ArgumentException>(repository.SaveChangesAsync, "Insert should throw ArgumentException when some entities are invalid.");
+            Assert.ThrowsAsync<DbUpdateException>(repository.SaveChangesAsync, "Insert should throw DbUpdateException when some entities are invalid.");
         }
 
         [Test]

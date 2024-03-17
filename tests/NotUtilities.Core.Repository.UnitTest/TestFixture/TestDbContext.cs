@@ -15,7 +15,10 @@ namespace NotUtilities.Core.Repository.UnitTest.TestFixture
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<TestEntity>().HasKey(e => e.Id);
+            modelBuilder.Entity<TestEntity>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+            });
 
             base.OnModelCreating(modelBuilder);
         }
