@@ -9,13 +9,13 @@ using System.Text;
 
 namespace NotUtilities.Core.Repository
 {
-    public class Repository<TEntity, TKey> : AsyncDisposableResource, IRepository<TEntity, TKey>
+    public sealed class Repository<TEntity, TKey> : AsyncDisposableResource, IRepository<TEntity, TKey>
         where TEntity : class, IEntity<TKey>
         where TKey : IComparable<TKey>, IEquatable<TKey>
     {
         private readonly DbContext _dbContext;
 
-        public Repository(DbContext context)
+        public Repository(DbContext context, bool autoCommitChanges = true)
         {
             _dbContext = context;
         }
@@ -118,34 +118,16 @@ namespace NotUtilities.Core.Repository
 
             await _dbContext.SaveChangesAsync();
         }
-
         public ValueTask DiscardChangesAsync()
         {
             if (_dbContext is null)
                 throw new InvalidOperationException("DbContext is not initialized.");
 
-            foreach (var entry in _dbContext.ChangeTracker.Entries())
-            {
-                switch (entry.State)
-                {
-                    case EntityState.Modified:
-                        entry.CurrentValues.SetValues(entry.OriginalValues);
-                        entry.State = EntityState.Unchanged;
-                        break;
-
-                    case EntityState.Added:
-                        entry.State = EntityState.Detached;
-                        break;
-
-                    case EntityState.Deleted:
-                        entry.State = EntityState.Unchanged;
-                        break;
-                }
-            }
+            _dbContext?.ChangeTracker.Clear();
 
             return ValueTask.CompletedTask;
         }
-
+        
         public override async ValueTask DisposeAsync()
         {
             await base.DisposeAsync();

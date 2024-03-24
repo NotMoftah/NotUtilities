@@ -35,18 +35,18 @@ namespace NotUtilities.Core.Repository.Interface
         /// </summary>
         /// <param name="isolationLevel">The isolation level of the transaction. Default is ReadCommitted.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
-        Task BeginTransactionAsync(IsolationLevel isolationLevel = IsolationLevel.ReadCommitted);
+        Task BeginTransactionAsync(CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Commits the current transaction asynchronously.
         /// </summary>
         /// <returns>A task representing the asynchronous operation.</returns>
-        Task CommitTransactionAsync();
+        Task CommitTransactionAsync(CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Rolls back the current transaction asynchronously.
         /// </summary>
         /// <returns>A task representing the asynchronous operation.</returns>
-        Task RollbackTransactionAsync();
+        Task RollbackTransactionAsync(CancellationToken cancellationToken = default);
     }
 }

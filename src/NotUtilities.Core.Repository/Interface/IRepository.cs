@@ -107,6 +107,5 @@ namespace NotUtilities.Core.Repository.Interface
         /// </summary>
         /// <returns>Task for operation completion.</returns>
         ValueTask DiscardChangesAsync();
-
     }
 }

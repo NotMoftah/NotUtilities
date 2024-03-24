@@ -22,7 +22,9 @@ namespace NotUtilities.Core.Repository
             _dbContext = dbContext;
         }
 
-        IRepository<TEntity, TKey> IUnitOfWork.Repository<TEntity, TKey>()
+        public IRepository<TEntity, TKey> Repository<TEntity, TKey>()
+            where TEntity : class, IEntity<TKey>
+            where TKey : IComparable<TKey>, IEquatable<TKey>
         {
             if (_dbContext is null)
                 throw new InvalidOperationException("DbContext is not initialized.");
@@ -41,60 +43,52 @@ namespace NotUtilities.Core.Repository
             if (_dbContext is null)
                 throw new InvalidOperationException("DbContext is not initialized.");
 
-            foreach (var entry in _dbContext.ChangeTracker.Entries())
-            {
-                switch (entry.State)
-                {
-                    case EntityState.Modified:
-                        entry.CurrentValues.SetValues(entry.OriginalValues);
-                        entry.State = EntityState.Unchanged;
-                        break;
-
-                    case EntityState.Added:
-                        entry.State = EntityState.Detached;
-                        break;
-
-                    case EntityState.Deleted:
-                        entry.State = EntityState.Unchanged;
-                        break;
-                }
-            }
+            _dbContext?.ChangeTracker.Clear();
 
             return ValueTask.CompletedTask;
         }
         
-        public async Task BeginTransactionAsync(IsolationLevel isolationLevel = IsolationLevel.ReadCommitted)
+        public async Task BeginTransactionAsync(CancellationToken cancellationToken = default)
+        {
+            if (_dbContext is null)
+                throw new InvalidOperationException("DbContext is not initialized.");
+
+            if (_transaction is not null)
+                throw new InvalidOperationException("DbContextTransaction has already started.");
+
+            _transaction = await _dbContext.Database.BeginTransactionAsync(cancellationToken);
+        }
+        public async Task CommitTransactionAsync(CancellationToken cancellationToken = default)
         {
             if (_dbContext is null)
                 throw new InvalidOperationException("DbContext is not initialized.");
 
             if (_transaction is null)
-                _transaction = await _dbContext.Database.BeginTransactionAsync();
+                throw new InvalidOperationException("DbContextTransaction is not initialized.");
+
+            await SaveChangesAsync();
+            await _transaction.CommitAsync(cancellationToken);
         }
-        public async Task CommitTransactionAsync()
+        public async Task RollbackTransactionAsync(CancellationToken cancellationToken = default)
         {
             if (_dbContext is null)
                 throw new InvalidOperationException("DbContext is not initialized.");
 
-            if (_transaction is not null)
-            {
-                await SaveChangesAsync();
-                await _transaction.CommitAsync();
-            }
-        }
-        public async Task RollbackTransactionAsync()
-        {
-            if (_dbContext is null)
-                throw new InvalidOperationException("DbContext is not initialized.");
+            if (_transaction is null)
+                throw new InvalidOperationException("DbContextTransaction is not initialized.");
 
-            if (_transaction is not null)
-                await _transaction.RollbackAsync();
+            await _transaction.RollbackAsync(cancellationToken);
+            await DiscardChangesAsync();
         }
 
         public override async ValueTask DisposeAsync()
         {
-            _transaction = null;
+            if (_transaction != null)
+                await _transaction.DisposeAsync();
+
             await _dbContext.DisposeAsync();
+            _transaction = null;
+
             await base.DisposeAsync();
         }
     }
