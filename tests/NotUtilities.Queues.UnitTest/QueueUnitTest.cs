@@ -1,6 +1,3 @@
-using NotUtilities.Queues;
-using NotUtilities.Queues.Interface;
-
 namespace NotUtilities.Queues.UnitTest
 {
     [TestFixture]

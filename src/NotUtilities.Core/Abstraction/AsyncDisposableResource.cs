@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace NotUtilities.Core.Abstraction
+﻿namespace NotUtilities.Core.Abstraction
 {
     /// <summary>
     /// Represents an asynchronously disposable resource. Implements <see cref="IAsyncDisposable"/> for

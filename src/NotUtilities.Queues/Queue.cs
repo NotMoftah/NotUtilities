@@ -116,7 +116,7 @@ namespace NotUtilities.Queues
                     {
                         // Attempt to read and discard the remaining items. This loop ensures all queued items are acknowledged,
                         // which is important for avoiding memory leaks by ensuring that items do not remain indefinitely in the channel.
-                        while (queue.Reader.TryRead(out var _)) {}
+                        while (queue.Reader.TryRead(out var _)) { }
                     }
                 }
                 catch (ChannelClosedException)
