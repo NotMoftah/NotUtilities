@@ -1,7 +1,4 @@
-﻿using System;
-using System.Transactions;
-
-namespace NotUtilities.Core.Repository.Interface
+﻿namespace NotUtilities.Core.Repository.Interface
 {
     /// <summary>
     /// Defines the unit of work for managing transactions and repositories.

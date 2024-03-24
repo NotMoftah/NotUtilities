@@ -1,11 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NotUtilities.Core.Abstraction;
 using NotUtilities.Core.Repository.Interface;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 
 namespace NotUtilities.Core.Repository
 {
@@ -39,7 +35,7 @@ namespace NotUtilities.Core.Repository
         }
         public async Task<IEnumerable<TEntity>> FindByIdsAsync(IEnumerable<TKey> ids)
         {
-            if (ids == null || !ids.Any()) 
+            if (ids == null || !ids.Any())
                 return Enumerable.Empty<TEntity>();
 
             return await _dbContext.Set<TEntity>()
@@ -127,7 +123,7 @@ namespace NotUtilities.Core.Repository
 
             return ValueTask.CompletedTask;
         }
-        
+
         public override async ValueTask DisposeAsync()
         {
             await base.DisposeAsync();

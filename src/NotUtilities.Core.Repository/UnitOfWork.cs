@@ -2,13 +2,6 @@
 using Microsoft.EntityFrameworkCore.Storage;
 using NotUtilities.Core.Abstraction;
 using NotUtilities.Core.Repository.Interface;
-using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Transactions;
 
 namespace NotUtilities.Core.Repository
 {
@@ -47,7 +40,7 @@ namespace NotUtilities.Core.Repository
 
             return ValueTask.CompletedTask;
         }
-        
+
         public async Task BeginTransactionAsync(CancellationToken cancellationToken = default)
         {
             if (_dbContext is null)

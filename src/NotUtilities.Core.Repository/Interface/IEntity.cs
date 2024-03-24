@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace NotUtilities.Core.Repository.Interface
+﻿namespace NotUtilities.Core.Repository.Interface
 {
     /// <summary>
     /// Defines the base entity interface.

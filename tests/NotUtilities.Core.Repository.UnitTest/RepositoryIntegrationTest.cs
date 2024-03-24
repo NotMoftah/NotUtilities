@@ -2,11 +2,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using NotUtilities.Core.Repository.Interface;
 using NotUtilities.Core.Repository.UnitTest.TestFixture;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NotUtilities.Core.Repository.UnitTest
 {
@@ -223,7 +218,7 @@ namespace NotUtilities.Core.Repository.UnitTest
             await using var scope = ServiceProvider.CreateAsyncScope();
             var repository = scope.ServiceProvider.GetRequiredService<IRepository<TestEntity, int>>();
 
-            var newEntity = new TestEntity {Id = 5, Name = "TestEntity" };
+            var newEntity = new TestEntity { Id = 5, Name = "TestEntity" };
 
             // Act
             await repository.InsertAsync(newEntity);

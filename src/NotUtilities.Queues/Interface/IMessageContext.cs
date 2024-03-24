@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace NotUtilities.Queues.Interface
+﻿namespace NotUtilities.Queues.Interface
 {
     /// <summary>
     /// Defines the contract for a message context, which includes the message's unique identifier, its topic, and the time it was queued.

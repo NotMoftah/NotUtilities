@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace NotUtilities.Queues.Interface
+﻿namespace NotUtilities.Queues.Interface
 {
     /// <summary>
     /// Defines the contract for a queueing system capable of asynchronous operations for queuing and dequeuing messages.

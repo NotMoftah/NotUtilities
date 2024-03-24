@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using NotUtilities.Core.Repository.Interface;
-using System;
 
 namespace NotUtilities.Core.Repository.UnitTest.TestFixture
 {
@@ -38,7 +37,7 @@ namespace NotUtilities.Core.Repository.UnitTest.TestFixture
                 // Seed database or perform migrations
                 context.Database.EnsureDeleted();
                 context.Database.EnsureCreated();
-                
+
                 // Seed some inital random data
                 for (int i = 1; i <= 1000; i++)
                 {
